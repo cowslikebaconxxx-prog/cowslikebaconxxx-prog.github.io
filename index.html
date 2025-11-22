@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Language Learning Hub | Redesign</title>
+    <title>Language Learning Hub | Plain Text</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Configure Tailwind for Inter font and theme -->
+    <!-- Configure Tailwind for Inter font and neutral theme -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        'brand-primary': '#d97706', // Tailwind Amber 600 - Main Accent
-                        'brand-secondary': '#052e16', // Deep Emerald/Forest Green - Header/Strong text
+                        'neutral-dark': '#1f2937', // Gray 800
+                        'neutral-light': '#f9fafb', // Gray 50
                     },
                 }
             }
@@ -23,150 +23,140 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #fdf6e3; /* Soft Cream Background */
+            background-color: #ffffff; /* White background */
         }
         
-        /* Custom styles for the active tab */
+        /* Custom styles for the active tab (simple underline/border) */
         .nav-link {
-            transition: background-color 0.3s, color 0.3s, transform 0.1s;
+            transition: background-color 0.1s, color 0.1s;
+            padding: 8px 12px;
+            border-radius: 0;
+            margin: 4px 0;
         }
 
         .nav-link.active {
-            background-color: #d97706; /* brand-primary (Amber) */
-            color: white;
-            box-shadow: 0 4px 15px rgba(217, 119, 6, 0.5); /* Amber shadow */
-            transform: scale(1.02);
+            font-weight: 700;
+            color: #1f2937; /* Neutral dark text */
+            border-left: 4px solid #1f2937; /* Simple black bar to indicate active state */
+            background-color: #f3f4f6; /* Subtle gray background for active state */
         }
 
-        /* Base class for content pages to allow transitions */
+        /* Base class for content pages to allow simple opacity transitions */
         .content-page {
-            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+            transition: opacity 0.3s ease-out;
+            padding: 0; /* Resetting padding for simpler look */
         }
 
-        /* Initial state for pages that are not active (faded and slightly down) */
+        /* Initial state for pages that are not active (faded) */
         .content-page.fade-out {
             opacity: 0;
-            transform: translateY(20px); /* Increased slide distance */
-            position: absolute; /* To prevent content jumping/resizing main container */
+            position: absolute;
             width: 100%;
         }
 
-        /* Active state for pages that are visible (fully opaque, normal position) */
+        /* Active state for pages that are visible (fully opaque) */
         .content-page.fade-in {
             opacity: 1;
-            transform: translateY(0);
-            position: static; /* Restores flow when active */
+            position: static;
         }
 
         /* Container for smooth height transition */
         .content-container {
             position: relative;
-            transition: height 0.4s ease-in-out;
+            transition: height 0.3s ease-in-out;
         }
 
-        /* Style for the main content area to contain absolute children */
         #page-content-wrapper {
             position: relative;
-            min-height: 400px; /* Base height to prevent jump on load */
+            min-height: 300px;
         }
     </style>
 </head>
-<body class="min-h-screen antialiased">
+<body class="min-h-screen antialiased text-neutral-dark">
 
     <!-- Main Application Container -->
-    <div id="app" class="max-w-7xl mx-auto p-4 md:p-8">
+    <div id="app" class="max-w-5xl mx-auto p-4 md:p-8">
 
         <!-- Header -->
-        <header class="text-center py-10 mb-8 bg-brand-secondary rounded-3xl shadow-2xl text-white">
-            <h1 class="text-6xl font-black tracking-tight">Language Mastery Hub</h1>
-            <p class="text-xl opacity-80 mt-3">Structured, simple, and effective learning paths.</p>
+        <header class="text-center py-6 mb-8 border-b border-gray-300">
+            <h1 class="text-4xl font-bold tracking-tight">Language Mastery Hub</h1>
+            <p class="text-lg mt-2 text-gray-600">Structured, simple, and effective learning paths.</p>
         </header>
 
         <!-- Main Layout: Sidebar Navigation on left, Content on right -->
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
             
             <!-- Navigation Sidebar (Col 1 of 4 on Desktop) -->
-            <nav class="lg:col-span-1 bg-white p-6 rounded-2xl shadow-xl h-fit sticky top-4">
-                <h3 class="text-lg font-bold text-brand-secondary mb-4 border-b pb-2">Modules</h3>
-                <div class="space-y-3">
-                    <button id="nav-home" class="nav-link w-full text-left active px-4 py-3 rounded-xl font-semibold text-gray-700 hover:bg-amber-50 hover:text-brand-primary" data-page="home">
-                        🏠 Fundamentals
+            <nav class="lg:col-span-1 border-r border-gray-300 pr-8 h-fit sticky top-4">
+                <h3 class="text-lg font-bold mb-4 border-b pb-2">Modules</h3>
+                <div class="space-y-1">
+                    <button id="nav-home" class="nav-link w-full text-left active text-gray-700 hover:text-black" data-page="home">
+                        Introduction
                     </button>
-                    <button id="nav-grammar" class="nav-link w-full text-left px-4 py-3 rounded-xl font-semibold text-gray-700 hover:bg-amber-50 hover:text-brand-primary" data-page="grammar">
-                        📝 Structure & Syntax
+                    <button id="nav-grammar" class="nav-link w-full text-left text-gray-700 hover:text-black" data-page="grammar">
+                        Languages spoken online
                     </button>
-                    <button id="nav-vocabulary" class="nav-link w-full text-left px-4 py-3 rounded-xl font-semibold text-gray-700 hover:bg-amber-50 hover:text-brand-primary" data-page="vocabulary">
-                        🗣️ Core Vocabulary
+                    <button id="nav-vocabulary" class="nav-link w-full text-left text-gray-700 hover:text-black" data-page="vocabulary">
+                        Why translating technology cant always bridge the gap
                     </button>
                     <!-- Pronunciation & Stress -->
-                    <button id="nav-pronunciation" class="nav-link w-full text-left px-4 py-3 rounded-xl font-semibold text-gray-700 hover:bg-amber-50 hover:text-brand-primary" data-page="pronunciation">
-                        🔊 Pronunciation & Stress
+                    <button id="nav-pronunciation" class="nav-link w-full text-left text-gray-700 hover:text-black" data-page="pronunciation">
+                        How monolingualism can leaad to a disconnect online
                     </button>
                     <!-- Culture & Context -->
-                    <button id="nav-culture" class="nav-link w-full text-left px-4 py-3 rounded-xl font-semibold text-gray-700 hover:bg-amber-50 hover:text-brand-primary" data-page="culture">
-                        🌍 Culture & Context
+                    <button id="nav-culture" class="nav-link w-full text-left text-gray-700 hover:text-black" data-page="culture">
+                        Organizations
                     </button>
-                    <button id="nav-resources" class="nav-link w-full text-left px-4 py-3 rounded-xl font-semibold text-gray-700 hover:bg-amber-50 hover:text-brand-primary" data-page="resources">
-                        🔗 External Resources
+                    <button id="nav-resources" class="nav-link w-full text-left text-gray-700 hover:text-black" data-page="resources">
+                        AAcademic reference
                     </button>
                 </div>
             </nav>
 
             <!-- Main Content Area (Col 3 of 4 on Desktop) -->
-            <main class="lg:col-span-3 bg-white p-6 md:p-10 rounded-2xl shadow-2xl">
+            <main class="lg:col-span-3">
                 <div id="page-content-wrapper" class="content-container">
                     
                     <!-- 1. Home Page -->
                     <section id="page-home" class="content-page fade-in">
-                        <h2 class="text-4xl font-extrabold text-brand-secondary mb-6 border-b-4 border-brand-primary/50 pb-4">Start Your Journey Here</h2>
-                        <p class="text-gray-700 mb-10 leading-relaxed text-lg">
+                        <h2 class="text-3xl font-bold mb-6 border-b pb-3">Start Your Journey Here</h2>
+                        <p class="text-gray-700 mb-8 leading-relaxed text-lg">
                             Welcome to your structured guide for language acquisition. Success in language learning comes from consistent exposure, deliberate practice, and a systematic approach. Navigate through the modules on the left to focus on grammar, vocabulary, and effective resources.
                         </p>
-                        <div class="grid md:grid-cols-3 gap-6">
-                            <div class="p-6 rounded-xl bg-amber-50 border-l-4 border-brand-primary shadow-md">
-                                <span class="text-3xl text-brand-primary block mb-2">⭐</span>
-                                <h3 class="font-bold text-xl text-brand-secondary mb-1">Set Goals</h3>
-                                <p class="text-sm text-gray-600">Define what proficiency means to you: conversational, professional, or academic.</p>
-                            </div>
-                            <div class="p-6 rounded-xl bg-amber-50 border-l-4 border-brand-primary shadow-md">
-                                <span class="text-3xl text-brand-primary block mb-2">🗓️</span>
-                                <h3 class="font-bold text-xl text-brand-secondary mb-1">Daily Practice</h3>
-                                <p class="text-sm text-gray-600">Dedicate a minimum of 15-30 minutes every single day for maximum retention.</p>
-                            </div>
-                            <div class="p-6 rounded-xl bg-amber-50 border-l-4 border-brand-primary shadow-md">
-                                <span class="text-3xl text-brand-primary block mb-2">👂</span>
-                                <h3 class="font-bold text-xl text-brand-secondary mb-1">Listen Actively</h3>
-                                <p class="text-sm text-gray-600">Immerse yourself by listening to music, podcasts, or films in the target language.</p>
-                            </div>
-                        </div>
+                        <h3 class="font-semibold text-xl mb-3 mt-8">Key Principles</h3>
+                        <ul class="list-disc list-inside ml-8 space-y-3 text-gray-700">
+                            <li>Set Goals: Define what proficiency means to you: conversational, professional, or academic.</li>
+                            <li>Daily Practice: Dedicate a minimum of 15-30 minutes every single day for maximum retention.</li>
+                            <li>Listen Actively: Immerse yourself by listening to music, podcasts, or films in the target language.</li>
+                        </ul>
                     </section>
 
                     <!-- 2. Grammar Page -->
                     <section id="page-grammar" class="content-page hidden fade-out">
-                        <h2 class="text-4xl font-extrabold text-brand-secondary mb-6 border-b-4 border-brand-primary/50 pb-4">Structure & Syntax: The Building Blocks</h2>
-                        <p class="text-gray-700 mb-10 leading-relaxed text-lg">
+                        <h2 class="text-3xl font-bold mb-6 border-b pb-3">Structure and Syntax: The Building Blocks</h2>
+                        <p class="text-gray-700 mb-8 leading-relaxed text-lg">
                             Grammar is the framework that allows you to connect words into meaningful thoughts. Focus on high-frequency tenses and core sentence structure first.
                         </p>
 
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <!-- Example 1 (Green Palette) -->
-                            <div class="bg-green-50 p-6 rounded-xl border-t-8 border-green-600 shadow-lg">
-                                <h3 class="text-2xl font-bold text-green-700 mb-3">Tense: Subjunctive Mood</h3>
+                        <div class="space-y-6">
+                            <!-- Example 1 -->
+                            <div>
+                                <h3 class="text-2xl font-bold mb-2">Tense: Subjunctive Mood</h3>
                                 <p class="text-gray-700 mb-3">Used to express doubt, desire, emotion, or uncertainty. (Example: French "Il faut que..." - It is necessary that...)</p>
-                                <ul class="list-disc list-inside mt-2 text-base text-gray-600 space-y-2 ml-4">
-                                    <li><strong class="text-green-800 italic">Je sois</strong> (I am - Subjunctive)</li>
-                                    <li><strong class="text-green-800 italic">Nous ayons</strong> (We have - Subjunctive)</li>
+                                <ul class="list-disc list-inside mt-2 text-base text-gray-600 space-y-1 ml-4">
+                                    <li>*Je sois* (I am - Subjunctive)</li>
+                                    <li>*Nous ayons* (We have - Subjunctive)</li>
                                 </ul>
                             </div>
 
-                            <!-- Example 2 (Green Palette) -->
-                            <div class="bg-green-50 p-6 rounded-xl border-t-8 border-green-600 shadow-lg">
-                                <h3 class="text-2xl font-bold text-green-700 mb-3">Case System (German Example)</h3>
+                            <!-- Example 2 -->
+                            <div>
+                                <h3 class="text-2xl font-bold mb-2">Case System (German Example)</h3>
                                 <p class="text-gray-700 mb-3">The form of the article and noun changes based on its function in the sentence (subject, object, possession).</p>
-                                <ul class="list-disc list-inside mt-2 text-base text-gray-600 space-y-2 ml-4">
-                                    <li>Nominative (Subject): <strong class="text-green-800">Der</strong> Mann (The man)</li>
-                                    <li>Accusative (Direct Object): <strong class="text-green-800">Den</strong> Mann (The man)</li>
-                                    <li>Dative (Indirect Object): <strong class="text-green-800">Dem</strong> Mann (To the man)</li>
+                                <ul class="list-disc list-inside mt-2 text-base text-gray-600 space-y-1 ml-4">
+                                    <li>Nominative (Subject): Der Mann (The man)</li>
+                                    <li>Accusative (Direct Object): Den Mann (The man)</li>
+                                    <li>Dative (Indirect Object): Dem Mann (To the man)</li>
                                 </ul>
                             </div>
                         </div>
@@ -174,102 +164,98 @@
 
                     <!-- 3. Vocabulary Page -->
                     <section id="page-vocabulary" class="content-page hidden fade-out">
-                        <h2 class="text-4xl font-extrabold text-brand-secondary mb-6 border-b-4 border-brand-primary/50 pb-4">Core Vocabulary: High-Frequency Words</h2>
-                        <p class="text-gray-700 mb-10 leading-relaxed text-lg">
+                        <h2 class="text-3xl font-bold mb-6 border-b pb-3">Core Vocabulary: High-Frequency Words</h2>
+                        <p class="text-gray-700 mb-8 leading-relaxed text-lg">
                             The Pareto principle applies here: 20% of the words are used 80% of the time. Focus on the most common nouns, verbs, and function words first.
                         </p>
 
-                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                            <!-- Word Card 1 -->
-                            <div class="bg-amber-50 p-4 rounded-xl text-center shadow-md border-b-4 border-brand-primary hover:bg-amber-100 transition">
-                                <p class="text-xl font-bold text-brand-primary">To Go</p>
-                                <p class="text-lg text-gray-600 mt-1">Ir / Aller</p>
+                        <div class="space-y-2">
+                            <div class="grid grid-cols-4 border-b pb-1 font-semibold">
+                                <div class="col-span-2">English</div>
+                                <div class="col-span-2">Target Language Example</div>
                             </div>
-                            <!-- Word Card 2 -->
-                            <div class="bg-amber-50 p-4 rounded-xl text-center shadow-md border-b-4 border-brand-primary hover:bg-amber-100 transition">
-                                <p class="text-xl font-bold text-brand-primary">House</p>
-                                <p class="text-lg text-gray-600 mt-1">Casa / Maison</p>
+                            <div class="grid grid-cols-4 py-1 text-gray-700">
+                                <div class="col-span-2">To Go</div>
+                                <div class="col-span-2">Ir / Aller</div>
                             </div>
-                            <!-- Word Card 3 -->
-                            <div class="bg-amber-50 p-4 rounded-xl text-center shadow-md border-b-4 border-brand-primary hover:bg-amber-100 transition">
-                                <p class="text-xl font-bold text-brand-primary">Friend</p>
-                                <p class="text-lg text-gray-600 mt-1">Amigo / Ami</p>
+                            <div class="grid grid-cols-4 py-1 text-gray-700">
+                                <div class="col-span-2">House</div>
+                                <div class="col-span-2">Casa / Maison</div>
                             </div>
-                            <!-- Word Card 4 -->
-                            <div class="bg-amber-50 p-4 rounded-xl text-center shadow-md border-b-4 border-brand-primary hover:bg-amber-100 transition">
-                                <p class="text-xl font-bold text-brand-primary">Time</p>
-                                <p class="text-lg text-gray-600 mt-1">Tiempo / Temps</p>
+                            <div class="grid grid-cols-4 py-1 text-gray-700">
+                                <div class="col-span-2">Friend</div>
+                                <div class="col-span-2">Amigo / Ami</div>
                             </div>
-                            <!-- Word Card 5 -->
-                            <div class="bg-amber-50 p-4 rounded-xl text-center shadow-md border-b-4 border-brand-primary hover:bg-amber-100 transition">
-                                <p class="text-xl font-bold text-brand-primary">Big / Small</p>
-                                <p class="text-lg text-gray-600 mt-1">Grande / Petit</p>
+                            <div class="grid grid-cols-4 py-1 text-gray-700">
+                                <div class="col-span-2">Time</div>
+                                <div class="col-span-2">Tiempo / Temps</div>
                             </div>
-                            <!-- Word Card 6 -->
-                            <div class="bg-amber-50 p-4 rounded-xl text-center shadow-md border-b-4 border-brand-primary hover:bg-amber-100 transition">
-                                <p class="text-xl font-bold text-brand-primary">Yesterday</p>
-                                <p class="text-lg text-gray-600 mt-1">Ayer / Hier</p>
+                            <div class="grid grid-cols-4 py-1 text-gray-700">
+                                <div class="col-span-2">Big / Small</div>
+                                <div class="col-span-2">Grande / Petit</div>
                             </div>
-                            <!-- Word Card 7 -->
-                            <div class="bg-amber-50 p-4 rounded-xl text-center shadow-md border-b-4 border-brand-primary hover:bg-amber-100 transition">
-                                <p class="text-xl font-bold text-brand-primary">To Know</p>
-                                <p class="text-lg text-gray-600 mt-1">Saber / Savoir</p>
+                            <div class="grid grid-cols-4 py-1 text-gray-700">
+                                <div class="col-span-2">Yesterday</div>
+                                <div class="col-span-2">Ayer / Hier</div>
                             </div>
-                            <!-- Word Card 8 -->
-                            <div class="bg-amber-50 p-4 rounded-xl text-center shadow-md border-b-4 border-brand-primary hover:bg-amber-100 transition">
-                                <p class="text-xl font-bold text-brand-primary">New</p>
-                                <p class="text-lg text-gray-600 mt-1">Nuevo / Nouveau</p>
+                            <div class="grid grid-cols-4 py-1 text-gray-700">
+                                <div class="col-span-2">To Know</div>
+                                <div class="col-span-2">Saber / Savoir</div>
+                            </div>
+                            <div class="grid grid-cols-4 py-1 text-gray-700">
+                                <div class="col-span-2">New</div>
+                                <div class="col-span-2">Nuevo / Nouveau</div>
                             </div>
                         </div>
                     </section>
 
-                    <!-- 4. Pronunciation Page (Stone Palette) -->
+                    <!-- 4. Pronunciation Page -->
                     <section id="page-pronunciation" class="content-page hidden fade-out">
-                        <h2 class="text-4xl font-extrabold text-brand-secondary mb-6 border-b-4 border-brand-primary/50 pb-4">Pronunciation & Stress: Sounding Natural</h2>
-                        <p class="text-gray-700 mb-10 leading-relaxed text-lg">
+                        <h2 class="text-3xl font-bold mb-6 border-b pb-3">Pronunciation and Stress: Sounding Natural</h2>
+                        <p class="text-gray-700 mb-8 leading-relaxed text-lg">
                             Correct pronunciation is essential for being understood. Focus on mastering phonetics, minimal pairs, and the rhythm and stress patterns of the language.
                         </p>
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="bg-stone-100 p-6 rounded-xl border-l-4 border-stone-600 shadow-lg">
-                                <h3 class="text-2xl font-bold text-stone-700 mb-3">Understanding Vowels</h3>
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-2xl font-bold mb-2">Understanding Vowels</h3>
                                 <p class="text-gray-700 mb-3">Many languages have vowel sounds that don't exist in English. Pay close attention to mouth position.</p>
-                                <ul class="list-disc list-inside mt-2 text-base text-gray-600 space-y-2 ml-4">
-                                    <li><strong class="text-stone-800">The German 'ü' sound:</strong> Rounded, high, front vowel. (Like 'oo' but with lips rounded for 'ee')</li>
-                                    <li><strong class="text-stone-800">French Nasal Vowels:</strong> Air passes through the nose. (e.g., 'on', 'en', 'in')</li>
+                                <ul class="list-disc list-inside mt-2 text-base text-gray-600 space-y-1 ml-4">
+                                    <li>The German 'ü' sound: Rounded, high, front vowel.</li>
+                                    <li>French Nasal Vowels: Air passes through the nose. (e.g., 'on', 'en', 'in')</li>
                                 </ul>
                             </div>
-                            <div class="bg-stone-100 p-6 rounded-xl border-l-4 border-stone-600 shadow-lg">
-                                <h3 class="text-2xl font-bold text-stone-700 mb-3">Word Stress Patterns</h3>
+                            <div>
+                                <h3 class="text-2xl font-bold mb-2">Word Stress Patterns</h3>
                                 <p class="text-gray-700 mb-3">Stress changes the meaning of a word or sentence. Practice stressing the correct syllable.</p>
-                                <ul class="list-disc list-inside mt-2 text-base text-gray-600 space-y-2 ml-4">
-                                    <li><strong class="text-stone-800">Spanish Default:</strong> Stress on the penultimate syllable (unless marked).</li>
-                                    <li><strong class="text-stone-800">Japanese Pitch Accent:</strong> Tone changes can alter meaning (e.g., hashí vs. háshi).</li>
+                                <ul class="list-disc list-inside mt-2 text-base text-gray-600 space-y-1 ml-4">
+                                    <li>Spanish Default: Stress on the penultimate syllable (unless marked).</li>
+                                    <li>Japanese Pitch Accent: Tone changes can alter meaning (e.g., hashí vs. háshi).</li>
                                 </ul>
                             </div>
                         </div>
                     </section>
 
-                    <!-- 5. Culture Page (Red Palette) -->
+                    <!-- 5. Culture Page -->
                     <section id="page-culture" class="content-page hidden fade-out">
-                        <h2 class="text-4xl font-extrabold text-brand-secondary mb-6 border-b-4 border-brand-primary/50 pb-4">Culture & Context: Usage and Etiquette</h2>
-                        <p class="text-gray-700 mb-10 leading-relaxed text-lg">
+                        <h2 class="text-3xl font-bold mb-6 border-b pb-3">Culture and Context: Usage and Etiquette</h2>
+                        <p class="text-gray-700 mb-8 leading-relaxed text-lg">
                             Language doesn't exist in a vacuum. Understanding social norms, body language, and context is crucial for fluent and appropriate communication.
                         </p>
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="bg-red-50 p-6 rounded-xl border-l-4 border-red-600 shadow-lg">
-                                <h3 class="text-2xl font-bold text-red-700 mb-3">Formal vs. Informal Greetings</h3>
+                        <div class="space-y-6">
+                            <div>
+                                <h3 class="text-2xl font-bold mb-2">Formal vs. Informal Greetings</h3>
                                 <p class="text-gray-700 mb-3">Know when to use polite, formal pronouns and addresses versus casual forms.</p>
-                                <ul class="list-disc list-inside mt-2 text-base text-gray-600 space-y-2 ml-4">
-                                    <li><strong class="text-red-800">German:</strong> Use 'Sie' (formal) with strangers and superiors, 'du' (informal) with friends.</li>
-                                    <li><strong class="text-red-800">Korean:</strong> Use honorifics based on age and social status when speaking to elders.</li>
+                                <ul class="list-disc list-inside mt-2 text-base text-gray-600 space-y-1 ml-4">
+                                    <li>German: Use 'Sie' (formal) with strangers and superiors, 'du' (informal) with friends.</li>
+                                    <li>Korean: Use honorifics based on age and social status when speaking to elders.</li>
                                 </ul>
                             </div>
-                            <div class="bg-red-50 p-6 rounded-xl border-l-4 border-red-600 shadow-lg">
-                                <h3 class="text-2xl font-bold text-red-700 mb-3">Non-Verbal Communication</h3>
+                            <div>
+                                <h3 class="text-2xl font-bold mb-2">Non-Verbal Communication</h3>
                                 <p class="text-gray-700 mb-3">Body language and customs can vary significantly and lead to misunderstandings.</p>
-                                <ul class="list-disc list-inside mt-2 text-base text-gray-600 space-y-2 ml-4">
-                                    <li><strong class="text-red-800">Japan:</strong> Bowing is a form of greeting, apology, or thanks; handshakes are less common.</li>
-                                    <li><strong class="text-red-800">Italy:</strong> Hand gestures are an integral part of communication and expressing emotion.</li>
+                                <ul class="list-disc list-inside mt-2 text-base text-gray-600 space-y-1 ml-4">
+                                    <li>Japan: Bowing is a form of greeting, apology, or thanks; handshakes are less common.</li>
+                                    <li>Italy: Hand gestures are an integral part of communication and expressing emotion.</li>
                                 </ul>
                             </div>
                         </div>
@@ -277,30 +263,24 @@
 
                     <!-- 6. Resources Page -->
                     <section id="page-resources" class="content-page hidden fade-out">
-                        <h2 class="text-4xl font-extrabold text-brand-secondary mb-6 border-b-4 border-brand-primary/50 pb-4">External Resources: Tools for Immersion</h2>
-                        <p class="text-gray-700 mb-10 leading-relaxed text-lg">
+                        <h2 class="text-3xl font-bold mb-6 border-b pb-3">External Resources: Tools for Immersion</h2>
+                        <p class="text-gray-700 mb-8 leading-relaxed text-lg">
                             The best way to progress is to integrate the language into your daily life using external media and learning platforms.
                         </p>
 
-                        <ul class="space-y-6">
-                            <!-- Resource 1: Comprehensive Dictionary (Replaced the external user link) -->
-                            <li class="p-6 border border-brand-secondary/30 bg-orange-50 rounded-xl flex items-start space-x-4 shadow-lg hover:shadow-xl transition">
-                                <span class="text-4xl text-brand-primary">📚</span>
-                                <div>
-                                    <h3 class="text-2xl font-semibold text-brand-secondary">Comprehensive Digital Dictionary</h3>
-                                    <p class="text-gray-600 mt-1">Reliable dictionary access is vital for quick lookups and understanding nuanced definitions.</p>
-                                    <a href="#" class="text-brand-primary hover:underline text-sm mt-2 inline-block font-medium">Search Dictionary (Mock Link)</a>
-                                </div>
+                        <ul class="space-y-4">
+                            <!-- Resource 1 -->
+                            <li>
+                                <h3 class="text-xl font-semibold">Comprehensive Digital Dictionary</h3>
+                                <p class="text-gray-600 mt-1">Reliable dictionary access is vital for quick lookups and understanding nuanced definitions.</p>
+                                <a href="#" class="text-gray-700 hover:underline text-sm mt-2 inline-block font-medium">Search Dictionary (Mock Link)</a>
                             </li>
                             
-                            <!-- Resource 2: Online Tutors (Original Mock Link) -->
-                            <li class="p-6 border border-brand-secondary/30 bg-gray-50 rounded-xl flex items-start space-x-4 shadow-lg hover:shadow-xl transition">
-                                <span class="text-4xl text-brand-secondary">🧑‍💻</span>
-                                <div>
-                                    <h3 class="text-2xl font-semibold text-brand-secondary">Online Tutors & Coaches</h3>
-                                    <p class="text-gray-600 mt-1">Personalized 1-on-1 sessions are essential for improving speaking and overcoming plateaus.</p>
-                                    <a href="#" class="text-brand-primary hover:underline text-sm mt-2 inline-block font-medium">Find a Tutor Platform (Mock Link)</a>
-                                </div>
+                            <!-- Resource 2 -->
+                            <li>
+                                <h3 class="text-xl font-semibold">Online Tutors and Coaches</h3>
+                                <p class="text-gray-600 mt-1">Personalized 1-on-1 sessions are essential for improving speaking and overcoming plateaus.</p>
+                                <a href="#" class="text-gray-700 hover:underline text-sm mt-2 inline-block font-medium">Find a Tutor Platform (Mock Link)</a>
                             </li>
                         </ul>
                     </section>
@@ -310,8 +290,8 @@
         </div>
 
         <!-- Footer -->
-        <footer class="text-center mt-12 py-6 text-gray-500 text-sm border-t border-gray-300">
-            &copy; 2025 Language Mastery Hub. Clean design and responsive layout.
+        <footer class="text-center mt-12 py-4 text-gray-500 text-sm border-t border-gray-300">
+            &copy; 2025 Language Mastery Hub. Simple, functional layout.
         </footer>
 
     </div>
@@ -374,7 +354,7 @@
                     currentPage.classList.remove('fade-in');
                     currentPage.classList.add('fade-out');
                     
-                    // Wait for the fade-out transition (400ms) to finish
+                    // Wait for the fade-out transition (300ms) to finish
                     setTimeout(() => {
                         currentPage.classList.add('hidden');
                         currentPage.classList.remove('fade-out');
@@ -389,7 +369,7 @@
                             // 5. Final height adjustment
                             contentWrapper.style.height = `${targetPage.offsetHeight}px`;
                         }
-                    }, 400); 
+                    }, 300); 
 
                 } else if (targetPage) {
                     // Initial load case
